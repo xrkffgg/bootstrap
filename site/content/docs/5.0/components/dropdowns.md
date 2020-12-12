@@ -899,7 +899,7 @@ Options can be passed via data attributes or JavaScript. For data attributes, ap
     <tr>
       <td><code>offset</code></td>
       <td>number | string | function</td>
-      <td><code>0</code></td>
+      <td><code>"0,0"</code></td>
       <td>
         <p>Offset of the dropdown relative to its target.</p>
           <p>When a function is used to determine the offset, it is called with an object containing the popper offsets object data as its first argument. The function must return an array with two numbers: <code>[skidding, distance]</code>. The triggering element DOM node is passed as the second argument.</p>
