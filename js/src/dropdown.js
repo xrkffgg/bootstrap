@@ -289,6 +289,31 @@ class Dropdown extends BaseComponent {
     return this._element.closest(`.${CLASS_NAME_NAVBAR}`) !== null
   }
 
+  _getOffset() {
+    let offset = [0, 0]
+
+    if (!this._config.offset) {
+      return offset
+    }
+
+    if (typeof this._config.offset === 'number') {
+      offset[0] = this._config.offset
+    } else if (typeof this._config.offset === 'string') {
+      offset = offset.split(',')
+      if (offset.length === 1) {
+        offset = [offset[0], 0]
+      }
+
+      offset = offset.map(val => Number.parseInt(val, 10))
+    } else if (typeof this._config.offset === 'function') {
+      offset = (popper, reference, placement) => {
+        return offset({ popper, reference, placement }, this._element)
+      }
+    }
+
+    return offset
+  }
+
   _getPopperConfig() {
     const popperConfig = {
       placement: this._getPlacement(),
@@ -303,6 +328,12 @@ class Dropdown extends BaseComponent {
         name: 'flip',
         options: {
           fallbackPlacements: ['top', 'right', 'bottom', 'left']
+        }
+      },
+      {
+        name: 'offset',
+        options: {
+          offset: this._getOffset()
         }
       }]
     }
