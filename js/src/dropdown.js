@@ -290,18 +290,14 @@ class Dropdown extends BaseComponent {
   }
 
   _getOffset() {
-    let { offset } = this._config
-
-    if (!offset) {
-      return [0, 0]
-    }
+    const { offset } = this._config
 
     if (typeof offset === 'string') {
-      offset = offset.split(',').map(val => Number.parseInt(val, 10))
-    } else if (typeof offset === 'function') {
-      offset = ({ popper, reference, placement }) => {
-        return offset({ popper, reference, placement }, this._element)
-      }
+      return offset.split(',').map(val => Number.parseInt(val, 10))
+    }
+
+    if (typeof offset === 'function') {
+      return popperData => offset(popperData, this._element)
     }
 
     return offset

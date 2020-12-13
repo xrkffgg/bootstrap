@@ -54,7 +54,7 @@ describe('Dropdown', () => {
       expect(dropdown.toggle).toHaveBeenCalled()
     })
 
-    it('should create offset modifier correctly when offset option is a function', () => {
+    it('should create offset modifier correctly when offset option is a function', done => {
       fixtureEl.innerHTML = [
         '<div class="dropdown">',
         '  <button class="btn dropdown-toggle" data-bs-toggle="dropdown">Dropdown</button>',
@@ -64,14 +64,22 @@ describe('Dropdown', () => {
         '</div>'
       ].join('')
 
-      const getOffset = () => [10, 20]
+      const getOffset = jasmine.createSpy('getOffset').and.returnValue([10, 20])
       const btnDropdown = fixtureEl.querySelector('[data-bs-toggle="dropdown"]')
       const dropdown = new Dropdown(btnDropdown, {
-        offset: getOffset
+        offset: getOffset,
+        popperConfig: {
+          onFirstUpdate: state => {
+            expect(getOffset).toHaveBeenCalledWith({ ...state.rects, placement: state.placement }, btnDropdown)
+            done()
+          }
+        }
       })
       const offset = dropdown._getOffset()
 
       expect(typeof offset).toEqual('function')
+
+      dropdown.show()
     })
 
     it('should create offset modifier correctly when offset option is a string into data attribute', () => {
