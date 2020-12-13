@@ -70,7 +70,11 @@ describe('Dropdown', () => {
         offset: getOffset,
         popperConfig: {
           onFirstUpdate: state => {
-            expect(getOffset).toHaveBeenCalledWith({ ...state.rects, placement: state.placement }, btnDropdown)
+            expect(getOffset).toHaveBeenCalledWith({
+              popper: state.rects.popper,
+              reference: state.rects.reference,
+              placement: state.placement
+            }, btnDropdown)
             done()
           }
         }
