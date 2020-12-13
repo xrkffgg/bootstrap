@@ -72,7 +72,7 @@ const PLACEMENT_RIGHT = isRTL ? 'left-start' : 'right-start'
 const PLACEMENT_LEFT = isRTL ? 'right-start' : 'left-start'
 
 const Default = {
-  offset: 0,
+  offset: [0, 0],
   flip: true,
   boundary: 'clippingParents',
   reference: 'toggle',
@@ -81,7 +81,7 @@ const Default = {
 }
 
 const DefaultType = {
-  offset: '(number|string|function)',
+  offset: '(array|string|function)',
   flip: 'boolean',
   boundary: '(string|element)',
   reference: '(string|element)',
@@ -296,17 +296,10 @@ class Dropdown extends BaseComponent {
       return [0, 0]
     }
 
-    if (typeof offset === 'number') {
-      offset = [offset, 0]
-    } else if (typeof offset === 'string') {
-      offset = offset.split(',')
-      if (offset.length === 1) {
-        offset = [offset[0], 0]
-      }
-
-      offset = offset.map(val => Number.parseInt(val, 10))
+    if (typeof offset === 'string') {
+      offset = offset.split(',').map(val => Number.parseInt(val, 10))
     } else if (typeof offset === 'function') {
-      offset = (popper, reference, placement) => {
+      offset = ({ popper, reference, placement }) => {
         return offset({ popper, reference, placement }, this._element)
       }
     }
