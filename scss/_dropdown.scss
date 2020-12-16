@@ -22,7 +22,7 @@
   display: none; // none by default, but block on "open" of the menu
   min-width: $dropdown-min-width;
   padding: $dropdown-padding-y $dropdown-padding-x;
-  margin: $dropdown-spacer 0 0; // override default ul
+  margin: 0; // Let Popper handle the space by offset
   @include font-size($dropdown-font-size);
   color: $dropdown-color;
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
@@ -174,6 +174,11 @@
 
 .dropdown-menu.show {
   display: block;
+
+  &:not([data-popper-placement]) {
+    margin: $dropdown-spacer 0 0; // override default ul for dropdown not using Popper
+  }
+
 }
 
 // Dropdown section headers
