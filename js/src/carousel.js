@@ -416,7 +416,7 @@ class Carousel extends BaseComponent {
       const indicators = SelectorEngine.find(SELECTOR_INDICATOR, this._indicatorsElement)
 
       for (let i = 0; i < indicators.length; i++) {
-        if (parseInt(indicators[i].getAttribute('data-bs-slide-to')) === this._getItemIndex(element)) {
+        if (Number.parseInt(indicators[i].getAttribute('data-bs-slide-to')) === this._getItemIndex(element)) {
           indicators[i].classList.add(CLASS_NAME_ACTIVE)
           indicators[i].setAttribute('aria-current', 'true')
         }
